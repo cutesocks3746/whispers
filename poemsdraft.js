@@ -118,7 +118,7 @@ function displayPoems(poems) {
       ? poem.querySelector('[data-type="person"]').textContent === value
       : poem.querySelector('[data-type="theme"]').textContent === value;
   });
-*/
+
   // Hide/show poems
   allPoems.forEach(p => p.classList.add('hidden'));
   filteredPoems.forEach(p => p.classList.remove('hidden'));
@@ -131,7 +131,7 @@ function displayPoems(poems) {
   backButton.addEventListener('click', resetPoemView);
   mainSection.insertBefore(backButton, mainSection.firstChild);
 }
-
+*/
 function resetPoemView() {
   const allPoems = document.querySelectorAll('.poem-card');
   allPoems.forEach(p => p.classList.remove('hidden'));
