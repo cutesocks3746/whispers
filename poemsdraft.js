@@ -72,7 +72,7 @@ function displayPoems(poems) {
           ${poem.title}
         </h2>
         <p class="text-sm text-gray-500">
-          Written for: <span class="filter-link" data-type="person">${poem.writtenFor}</span>
+          Written on: <span class="filter-link" data-type="person">${poem.date}</span>
         </p>
       </header>
 
@@ -151,12 +151,12 @@ function searchPoems() {
   allPoems.forEach(poem => {
     const title = poem.querySelector('h2').textContent.toLowerCase();
     const fullText = poem.querySelector('.full-poem-text').textContent.toLowerCase();
-    const writtenFor = poem.querySelector('[data-type="person"]').textContent.toLowerCase();
+    //const writtenFor = poem.querySelector('[data-type="person"]').textContent.toLowerCase();
     const theme = poem.querySelector('[data-type="theme"]').textContent.toLowerCase();
     
     const match = title.includes(searchTerm) || 
                   fullText.includes(searchTerm) || 
-                  writtenFor.includes(searchTerm) || 
+      //            writtenFor.includes(searchTerm) || 
                   theme.includes(searchTerm);
     
     poem.classList.toggle('hidden', !match);
