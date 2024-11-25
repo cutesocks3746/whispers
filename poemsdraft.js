@@ -111,14 +111,14 @@ function displayPoems(poems) {
   });
 }
 
-function filterPoems(type, value) {
+/* function filterPoems(type, value) {
   const allPoems = document.querySelectorAll('.poem-card');
   const filteredPoems = Array.from(allPoems).filter(poem => {
     return type === 'person' 
       ? poem.querySelector('[data-type="person"]').textContent === value
       : poem.querySelector('[data-type="theme"]').textContent === value;
   });
-
+*/
   // Hide/show poems
   allPoems.forEach(p => p.classList.add('hidden'));
   filteredPoems.forEach(p => p.classList.remove('hidden'));
