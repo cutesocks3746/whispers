@@ -33,8 +33,8 @@ async function fetchPoems() {
       date: row[3] || '',
       time: row[4] || '',
       theme1: row[5] || 'Uncategorized',
-      lineCount: row[6] || '',
-      fullText: row[7] || 'No text available'
+      lineCount: row[7] || '',
+      fullText: row[8] || 'No text available'
     }));
     
     console.log('Processed poems:', poems); // Debug logging
