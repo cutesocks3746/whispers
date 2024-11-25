@@ -111,7 +111,7 @@ function displayPoems(poems) {
   });
 }
 
-/* function filterPoems(type, value) {
+function filterPoems(type, value) {
   const allPoems = document.querySelectorAll('.poem-card');
   const filteredPoems = Array.from(allPoems).filter(poem => {
     return type === 'person' 
@@ -131,7 +131,7 @@ function displayPoems(poems) {
   backButton.addEventListener('click', resetPoemView);
   mainSection.insertBefore(backButton, mainSection.firstChild);
 }
-*/
+
 function resetPoemView() {
   const allPoems = document.querySelectorAll('.poem-card');
   allPoems.forEach(p => p.classList.remove('hidden'));
