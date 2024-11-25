@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poetry Collection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        body {
+            font-family: 'Trebuchet MS', 'Crimson Text', serif;
+            background-color: #FAF0E6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Poetic Watercolor Background Effect */
+        .watercolor-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background: 
+                linear-gradient(45deg, rgba(0,188,212,0.1) 0%, rgba(255,182,193,0.1) 50%, rgba(156,39,176,0.1) 100%),
+                radial-gradient(circle at 30% 30%, rgba(255,193,7,0.05), transparent 50%);
+            z-index: -1;
+        }
+
+        /* Soft Shadow and Hover Effects */
+        .poem-card {
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,188,212,0.1);
+        }
+
+        .poem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,188,212,0.2);
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 640px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+
+        /* Delicate Divider */
+        .divider {
+            background: linear-gradient(to right, 
+                transparent, 
+                #00BCD4, 
+                #FFB6C1, 
+                transparent
+            );
+            height: 2px;
+            margin: 20px 0;
+        }
+
+        /* Typography with Elegant Ligatures */
+        .ligature-text {
+            font-feature-settings: 'liga' 1, 'calt' 1;
+        }
+    </style>
+</head>
+<body class="relative">
+    <div class="watercolor-bg"></div>
+
+    <header class="bg-white shadow-lg">
+        <div class="container mx-auto px-4 py-6 text-center">
+            <h1 class="text-4xl font-bold text-[#006064] ligature-text">
+                Whispers of the Heart
+            </h1>
+            <p class="text-[#4B0082] mt-2">
+                A Personal Collection of Poetic Moments
+            </p>
+        </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Poem Card Template -->
+            <article class="poem-card p-6 space-y-4">
+                <header>
+                    <h2 class="text-2xl font-semibold text-[#E53935]">
+                        Sunrise Memories
+                    </h2>
+                    <p class="text-sm text-gray-500">
+                        Written for: My Mother
+                    </p>
+                </header>
+
+                <div class="text-gray-700">
+                    <p class="line-clamp-3">
+                        Soft rays pierce through morning mist,
+                        Memories dance like gentle whispers...
+                    </p>
+                </div>
+
+                <footer class="flex justify-between items-center">
+                    <span class="px-3 py-1 bg-[#C8E6C9] text-[#1B5E20] rounded-full text-xs">
+                        Family
+                    </span>
+                    <button class="text-[#9C27B0] hover:underline">
+                        Read More
+                    </button>
+                </footer>
+            </article>
+
+            <!-- More poem cards would go here -->
+        </section>
+
+        <section class="mt-12 text-center">
+            <h2 class="text-3xl text-[#006064] mb-6">
+                Filter by Theme
+            </h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="px-4 py-2 bg-[#00BCD4] text-white rounded-full hover:bg-[#006064] transition">
+                    Love
+                </button>
+                <button class="px-4 py-2 bg-[#FFB6C1] text-white rounded-full hover:bg-[#DB7093] transition">
+                    Family
+                </button>
+                <button class="px-4 py-2 bg-[#4CAF50] text-white rounded-full hover:bg-[#1B5E20] transition">
+                    Nature
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#E6E6FA] py-8 mt-12">
+        <div class="container mx-auto text-center">
+            <p class="text-[#4B0082]">
+                © 2024 Whispers of the Heart. Capturing Moments, One Verse at a Time.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
