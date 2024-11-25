@@ -8,6 +8,8 @@
 const SHEET_ID = '16E6_0Y75fgPRe8Uz4nRHh5C7atbtuZtnB4i1472u180';
 const API_KEY = 'AIzaSyBcn9xAwgqo9_7x4ziGzannb73Mt-QcIDA';
 
+let poems = []; // Global variable to store poems
+
 async function fetchPoems() {
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/POEMS!A:H?key=${API_KEY}`;
   
@@ -15,26 +17,30 @@ async function fetchPoems() {
     const response = await fetch(url);
     const data = await response.json();
     
-    // First row is headers, skip it
-    const poems = data.values.slice(1).map(row => ({
-      id: row[0],
-      title: row[1],
-      writtenFor: row[2],
-      date: row[3],
-      time: row[4],
-      theme1: row[5],
-      lineCount: row[6],
-      fullText: row[7]
+    console.log('Raw data:', data); // Debug logging
+    
+    // Ensure values exist and is an array
+    if (!data.values || !Array.isArray(data.values)) {
+      console.error('No valid data found');
+      return;
+    }
+    
+    // Map the data, ensuring each poem has all properties
+    poems = data.values.slice(1).map(row => ({
+      id: row[0] || '',
+      title: row[1] || 'Untitled',
+      writtenFor: row[2] || 'Unknown',
+      date: row[3] || '',
+      time: row[4] || '',
+      theme1: row[5] || 'Uncategorized',
+      lineCount: row[6] || '',
+      fullText: row[7] || 'No text available'
     }));
     
+    console.log('Processed poems:', poems); // Debug logging
     displayPoems(poems);
   } catch (error) {
     console.error('Error fetching poems:', error);
-    document.querySelector('main').innerHTML = `
-      <div class="text-center text-red-500">
-        Error loading poems. Please check API configuration.
-      </div>
-    `;
   }
 }
 
@@ -43,20 +49,17 @@ function displayPoems(poems) {
   poemsContainer.innerHTML = ''; // Clear template poem
 
   poems.forEach(poem => {
-    // Provide default values and safe text handling
-    const previewText = poem.fullText 
-      ? poem.fullText.split(' ').slice(0, 20).join(' ') + '...'
-      : 'No preview available';
+    const previewText = poem.fullText.split(' ').slice(0, 20).join(' ') + '...';
 
     const poemCard = document.createElement('article');
     poemCard.className = 'poem-card p-6 space-y-4';
     poemCard.innerHTML = `
       <header>
         <h2 class="text-2xl font-semibold text-[#E53935]">
-          ${poem.title || 'Untitled Poem'}
+          ${poem.title}
         </h2>
         <p class="text-sm text-gray-500">
-          Written for: ${poem.writtenFor || 'Unknown'}
+          Written for: ${poem.writtenFor}
         </p>
       </header>
 
@@ -68,7 +71,7 @@ function displayPoems(poems) {
 
       <footer class="flex justify-between items-center">
         <span class="px-3 py-1 bg-[#C8E6C9] text-[#1B5E20] rounded-full text-xs">
-          ${poem.theme1 || 'Uncategorized'}
+          ${poem.theme1}
         </span>
         <button onclick="showFullPoem('${poem.id}')" class="text-[#9C27B0] hover:underline">
           Read More
@@ -82,10 +85,8 @@ function displayPoems(poems) {
 
 function showFullPoem(id) {
   const poem = poems.find(p => p.id === id);
-  if (poem && poem.fullText) {
+  if (poem) {
     alert(poem.fullText);
-  } else {
-    alert('Full poem text not available.');
   }
 }
 
