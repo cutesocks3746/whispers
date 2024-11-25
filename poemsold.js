@@ -11,7 +11,7 @@ const API_KEY = 'AIzaSyBcn9xAwgqo9_7x4ziGzannb73Mt-QcIDA';
 let poems = []; // Global variable to store poems
 
 async function fetchPoems() {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/POEMS!A:H?key=${API_KEY}`;
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/POEMS!A:I?key=${API_KEY}`;
   
   try {
     const response = await fetch(url);
@@ -33,8 +33,8 @@ async function fetchPoems() {
       date: row[3] || '',
       time: row[4] || '',
       theme1: row[5] || 'Uncategorized',
-      lineCount: row[6] || '',
-      fullText: row[7] || 'No text available'
+      lineCount: row[7] || '',
+      fullText: row[8] || 'No text available'
     }));
     
     console.log('Processed poems:', poems); // Debug logging
