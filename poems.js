@@ -43,27 +43,32 @@ function displayPoems(poems) {
   poemsContainer.innerHTML = ''; // Clear template poem
 
   poems.forEach(poem => {
+    // Provide default values and safe text handling
+    const previewText = poem.fullText 
+      ? poem.fullText.split(' ').slice(0, 20).join(' ') + '...'
+      : 'No preview available';
+
     const poemCard = document.createElement('article');
     poemCard.className = 'poem-card p-6 space-y-4';
     poemCard.innerHTML = `
       <header>
         <h2 class="text-2xl font-semibold text-[#E53935]">
-          ${poem.title}
+          ${poem.title || 'Untitled Poem'}
         </h2>
         <p class="text-sm text-gray-500">
-          Written for: ${poem.writtenFor}
+          Written for: ${poem.writtenFor || 'Unknown'}
         </p>
       </header>
 
       <div class="text-gray-700">
         <p class="line-clamp-3">
-          ${poem.fullText.split(' ').slice(0, 20).join(' ')}...
+          ${previewText}
         </p>
       </div>
 
       <footer class="flex justify-between items-center">
         <span class="px-3 py-1 bg-[#C8E6C9] text-[#1B5E20] rounded-full text-xs">
-          ${poem.theme1}
+          ${poem.theme1 || 'Uncategorized'}
         </span>
         <button onclick="showFullPoem('${poem.id}')" class="text-[#9C27B0] hover:underline">
           Read More
@@ -77,8 +82,10 @@ function displayPoems(poems) {
 
 function showFullPoem(id) {
   const poem = poems.find(p => p.id === id);
-  if (poem) {
+  if (poem && poem.fullText) {
     alert(poem.fullText);
+  } else {
+    alert('Full poem text not available.');
   }
 }
 
