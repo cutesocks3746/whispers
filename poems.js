@@ -51,5 +51,9 @@ function displayPoems(poems) {
   });
 }
 
+function showFullPoem(id) {
+  const poem = poems.find(p => p.id === id);
+  alert(poem.fullText);  // Simple implementation
+}
 // Call when page loads
 document.addEventListener('DOMContentLoaded', fetchPoems);
