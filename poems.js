@@ -26,25 +26,49 @@ async function fetchPoems() {
       lineCount: row[6],
       fullText: row[7]
     }));
-
+    
     displayPoems(poems);
   } catch (error) {
     console.error('Error fetching poems:', error);
+    document.querySelector('main').innerHTML = `
+      <div class="text-center text-red-500">
+        Error loading poems. Please check API configuration.
+      </div>
+    `;
   }
 }
 
 function displayPoems(poems) {
-  const poemsContainer = document.getElementById('poems-container');
-  
+  const poemsContainer = document.querySelector('main section');
+  poemsContainer.innerHTML = ''; // Clear template poem
+
   poems.forEach(poem => {
-    const poemCard = document.createElement('div');
-    poemCard.className = 'poem-card';
+    const poemCard = document.createElement('article');
+    poemCard.className = 'poem-card p-6 space-y-4';
     poemCard.innerHTML = `
-      <h3>${poem.title}</h3>
-      <p>Written for: ${poem.writtenFor}</p>
-      <p>Date: ${poem.date}</p>
-      <p>Theme: ${poem.theme1}</p>
-      <button onclick="showFullPoem('${poem.id}')">Read Poem</button>
+      <header>
+        <h2 class="text-2xl font-semibold text-[#E53935]">
+          ${poem.title}
+        </h2>
+        <p class="text-sm text-gray-500">
+          Written for: ${poem.writtenFor}
+        </p>
+      </header>
+
+      <div class="text-gray-700">
+        <p class="line-clamp-3">
+          ${poem.fullText.split(' ').slice(0, 20).join(' ')}...
+        </p>
+      </div>
+
+      <footer class="flex justify-between items-center">
+        <span class="px-3 py-1 bg-[#C8E6C9] text-[#1B5E20] rounded-full text-xs">
+          ${poem.theme1}
+        </span>
+        <button onclick="showFullPoem('${poem.id}')" class="text-[#9C27B0] hover:underline">
+          Read More
+        </button>
+      </footer>
     `;
     
     poemsContainer.appendChild(poemCard);
@@ -53,7 +77,9 @@ function displayPoems(poems) {
 
 function showFullPoem(id) {
   const poem = poems.find(p => p.id === id);
-  alert(poem.fullText);  // Simple implementation
+  if (poem) {
+    alert(poem.fullText);
+  }
 }
-// Call when page loads
+
 document.addEventListener('DOMContentLoaded', fetchPoems);
