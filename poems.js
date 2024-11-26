@@ -17,6 +17,10 @@ const themeColors = {
   'Nature': '#C8E6C9',    // Light Green
   'Friendship': '#B3E5FC',// Light Blue
   'Life': '#FFECB3',      // Light Yellow
+  'Broken Relationships': '#FF5252',      // Light Red
+  'Christian Life': '#E6E6FA',      // Light Purple
+  'Inspiration': '#B2EBF2',      // Light Cyan
+  'Loss': '#E53935',      // Bright Red
   'Uncategorized': '#E0E0E0' // Light Gray
 };
 
