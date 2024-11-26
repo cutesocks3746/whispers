@@ -63,6 +63,12 @@ async function fetchPoems() {
 }
 
 function displayThemeFilter() {
+  const mainHeading = document.querySelector('main h1');
+  if (!mainHeading) {
+    console.error('No main heading found for theme filter');
+    return;
+  }
+
   const themeContainer = document.createElement('div');
   themeContainer.className = 'theme-filter flex flex-wrap justify-center gap-2 mb-6';
   
@@ -77,10 +83,7 @@ function displayThemeFilter() {
   });
 
   // Insert the theme filter after the main heading
-  const mainHeading = document.querySelector('main h1');
-  if (mainHeading) {
-    mainHeading.insertAdjacentElement('afterend', themeContainer);
-  }
+  mainHeading.insertAdjacentElement('afterend', themeContainer);
 }
 
 function togglePoemExpansion(id) {
