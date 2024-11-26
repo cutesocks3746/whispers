@@ -124,7 +124,7 @@ function displayPoems(poems) {
     // Process themes (split by comma if multiple)
     const poemThemes = poem.theme1.split(',').map(theme => theme.trim());
     
-    // Generate theme color spans
+/*    // Generate theme color spans
     const themeSpans = poemThemes.map(theme => {
       const themeColor = themeColors[theme] || themeColors['Uncategorized'];
       return `
@@ -136,7 +136,7 @@ function displayPoems(poems) {
         </span>
       `;
     }).join('');
-
+*/
     poemCard.innerHTML = `
       <header>
         <h2 class="text-2xl font-semibold text-[#E53935]">
