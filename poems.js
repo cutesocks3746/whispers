@@ -133,7 +133,7 @@ function displayPoems(poems) {
     poemsContainer.appendChild(poemCard);
 
     // NEW CODE: Add copy link functionality
-    const link = generatePoemLink(poem.id);
+/*    const link = generatePoemLink(poem.id);
     const copyLinkButton = document.createElement('button');
     copyLinkButton.innerHTML = '🔗 Copy Link';
     copyLinkButton.className = 'absolute top-2 right-2 bg-gray-100 p-2 rounded-full'; // Optional styling
@@ -144,7 +144,7 @@ function displayPoems(poems) {
     });
     
     // Append the copy link button to the poem card
-    poemCard.appendChild(copyLinkButton);
+    poemCard.appendChild(copyLinkButton); */
   });
 }
 
@@ -218,28 +218,12 @@ function filterPoems(type, value) {
 
 //        <p class="text-sm text-gray-500 flex items-center gap-2">
 
-function generatePoemLink(poemId) {
+/* function generatePoemLink(poemId) {
   // Create a unique URL hash for each poem
   return `${window.location.origin}${window.location.pathname}#poem/${poemId}`;
-}
-
-/* function setupPoemLinking() {
-  // Parse URL hash on page load
-  const hash = window.location.hash;
-  if (hash.startsWith('#poem/')) {
-    const poemId = hash.split('/')[1];
-    const poemCard = document.querySelector(`[data-poem-id="${poemId}"]`);
-    if (poemCard) {
-      // Scroll to the poem
-      poemCard.scrollIntoView({ behavior: 'smooth' });
-      
-      // Optionally expand the poem
-      togglePoemExpansion(poemId);
-    }
-  }
 } */
 
-function setupPoemLinking() {
+/* function setupPoemLinking() {
   // Parse URL hash on page load
   const hash = window.location.hash;
   if (hash.startsWith('#poem/')) {
@@ -277,15 +261,15 @@ function setupPoemLinking() {
       };
     }
   }
-}
+} */
 
 // Call this after fetchPoems() completes
 document.addEventListener('DOMContentLoaded', () => {
   fetchPoems();
-  setupPoemLinking();
+//  setupPoemLinking();
   
   // Add event listener for hash changes
-  window.addEventListener('hashchange', setupPoemLinking);
+//  window.addEventListener('hashchange', setupPoemLinking);
 });
 
 function resetPoemView() {
