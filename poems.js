@@ -223,8 +223,7 @@ function generatePoemLink(poemId) {
   return `${window.location.origin}${window.location.pathname}#poem/${poemId}`;
 }
 
-
-function setupPoemLinking() {
+/* function setupPoemLinking() {
   // Parse URL hash on page load
   const hash = window.location.hash;
   if (hash.startsWith('#poem/')) {
@@ -238,12 +237,55 @@ function setupPoemLinking() {
       togglePoemExpansion(poemId);
     }
   }
+} */
+
+function setupPoemLinking() {
+  // Parse URL hash on page load
+  const hash = window.location.hash;
+  if (hash.startsWith('#poem/')) {
+    const poemId = hash.split('/')[1];
+    
+    // Wait for poems to be loaded
+    const checkAndHighlight = () => {
+      const poemCard = document.querySelector(`[data-poem-id="${poemId}"]`);
+      if (poemCard) {
+        // Scroll to the poem
+        poemCard.scrollIntoView({ behavior: 'smooth' });
+        
+        // Expand the poem
+        togglePoemExpansion(poemId);
+        
+        // Optional: Add a highlight effect
+        poemCard.classList.add('border-2', 'border-red-500');
+        
+        // Remove highlight after a few seconds
+        setTimeout(() => {
+          poemCard.classList.remove('border-2', 'border-red-500');
+        }, 3000);
+      }
+    };
+    
+    // If poems are already loaded, check immediately
+    if (poems.length > 0) {
+      checkAndHighlight();
+    } else {
+      // Otherwise, wait for poems to load
+      const originalFetchPoems = fetchPoems;
+      fetchPoems = async function(...args) {
+        await originalFetchPoems.apply(this, args);
+        checkAndHighlight();
+      };
+    }
+  }
 }
 
 // Call this after fetchPoems() completes
 document.addEventListener('DOMContentLoaded', () => {
   fetchPoems();
   setupPoemLinking();
+  
+  // Add event listener for hash changes
+  window.addEventListener('hashchange', setupPoemLinking);
 });
 
 function resetPoemView() {
