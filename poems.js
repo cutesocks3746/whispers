@@ -160,7 +160,7 @@ function filterPoems(type, value) {
     if (value === 'All') return true;
     
     return type === 'theme' 
-      ? poem.querySelector('.text-xs').textContent === value
+      ? poem.querySelector('.text-xs').textContent.trim() === value.trim()
       : false;
   });
   
@@ -169,22 +169,6 @@ function filterPoems(type, value) {
   
   // Show filtered poems
   filteredPoems.forEach(p => p.classList.remove('hidden'));
-  
-  // Add back button
-  const mainSection = document.querySelector('main section');
-  const backButton = document.createElement('button');
-  backButton.textContent = 'Back to All Poems';
-  backButton.className = 'mx-auto block my-4 px-4 py-2 bg-[#00BCD4] text-white rounded-full';
-  backButton.addEventListener('click', resetPoemView);
-  
-  // Remove any existing back button first
-  const existingBackButton = document.querySelector('main section button');
-  if (existingBackButton) existingBackButton.remove();
-  
-  // Only add back button if not in 'All' view
-  if (value !== 'All') {
-    mainSection.insertBefore(backButton, mainSection.firstChild);
-  }
 }
 
 function resetPoemView() {
