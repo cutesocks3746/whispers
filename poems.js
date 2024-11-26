@@ -107,7 +107,9 @@ function togglePoemExpansion(id) {
 function displayPoems(poems) {
   const poemsContainer = document.querySelector('main section');
   poemsContainer.innerHTML = '';
-
+  
+  // Add grid or flex layout with centering
+  poemsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center';
   poems.forEach(poem => {
     const poemCard = document.createElement('article');
     poemCard.className = 'poem-card p-6 space-y-4 cursor-pointer';
