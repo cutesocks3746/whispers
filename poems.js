@@ -62,7 +62,7 @@ async function fetchPoems() {
   }
 }
 
-function displayThemeFilter() {
+/* function displayThemeFilter() {
   const mainContainer = document.querySelector('main');
   if (!mainContainer) {
     console.error('No main container found for theme filter');
@@ -94,7 +94,7 @@ function displayThemeFilter() {
   // Insert the theme filter at the beginning of the main container
   mainContainer.insertBefore(themeContainer, mainContainer.firstChild);
 }
-
+*/
 function togglePoemExpansion(id) {
   const card = document.querySelector(`[data-poem-id="${id}"]`);
   const fullTextElement = card.querySelector('.full-poem-text');
