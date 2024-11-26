@@ -112,30 +112,38 @@ function processThemes(themeString) {
 function displayPoems(poems) {
   const poemsContainer = document.querySelector('main section');
   poemsContainer.innerHTML = '';
-  
-  // Add grid or flex layout with centering
-//  poemsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center';
+
+  // Add grid layout with responsive centering
+  poemsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center';
+
   poems.forEach(poem => {
     const poemCard = document.createElement('article');
-    poemCard.className = 'poem-card p-6 space-y-4 cursor-pointer';
+    poemCard.className = 'poem-card p-6 space-y-4 cursor-pointer w-full';
     poemCard.setAttribute('data-poem-id', poem.id);
     
-    // Theme background color
-    const themeColor = themeColors[poem.theme1] || themeColors['Uncategorized'];
-
+    // Process themes (split by comma if multiple)
+    const poemThemes = poem.theme1.split(',').map(theme => theme.trim());
     
+    // Generate theme color spans
+    const themeSpans = poemThemes.map(theme => {
+      const themeColor = themeColors[theme] || themeColors['Uncategorized'];
+      return `
+        <span 
+          class="px-2 py-1 rounded-full text-xs mr-1 inline-block"
+          style="background-color: ${themeColor}"
+        >
+          ${theme}
+        </span>
+      `;
+    }).join('');
+
     poemCard.innerHTML = `
       <header>
         <h2 class="text-2xl font-semibold text-[#E53935]">
           ${poem.title}
         </h2>
-        <p class="text-sm text-gray-500 flex items-center gap-2">
-          <span 
-            class="px-2 py-1 rounded-full text-xs"
-            style="background-color: ${themeColor}"
-          >
-            ${poem.theme1}
-          </span>
+        <p class="text-sm text-gray-500 flex items-center gap-2 mb-2">
+          ${themeSpans}
         </p>
         <p class="text-sm text-gray-500 flex items-center gap-2">
           Written on: ${poem.date}
@@ -156,35 +164,66 @@ function displayPoems(poems) {
     poemCard.addEventListener('click', () => togglePoemExpansion(poem.id));
     
     poemsContainer.appendChild(poemCard);
-  });
-}
 
-function generatePoemLink(poemId) {
-  // Create a unique URL hash for each poem
-  return `${window.location.origin}${window.location.pathname}#poem/${poemId}`;
-}
-
-function setupPoemLinking() {
-  // Parse URL hash on page load
-  const hash = window.location.hash;
-  if (hash.startsWith('#poem/')) {
-    const poemId = hash.split('/')[1];
-    focusOnSpecificPoem(poemId);
-  }
-
-  // Add copy link functionality to each poem card
-  poems.forEach(poem => {
+    // NEW CODE: Add copy link functionality
     const link = generatePoemLink(poem.id);
     const copyLinkButton = document.createElement('button');
     copyLinkButton.innerHTML = '🔗 Copy Link';
-    copyLinkButton.addEventListener('click', () => {
+    copyLinkButton.className = 'absolute top-2 right-2 bg-gray-100 p-2 rounded-full'; // Optional styling
+    copyLinkButton.addEventListener('click', (event) => {
+      event.stopPropagation(); // Prevent card expansion when clicking button
       navigator.clipboard.writeText(link);
       alert('Poem link copied!');
     });
-    // Append to poem card
+    
+    // Append the copy link button to the poem card
+    poemCard.appendChild(copyLinkButton);
   });
 }
 
+// You'll also need to update the theme filter function
+function displayThemeFilter() {
+  const mainContainer = document.querySelector('main');
+  if (!mainContainer) {
+    console.error('No main container found for theme filter');
+    return;
+  }
+  const themeContainer = document.createElement('div');
+  themeContainer.className = 'theme-filter flex flex-wrap justify-center gap-2 mb-6';
+  
+  // Add 'All' button first
+  const allButton = document.createElement('button');
+  allButton.textContent = 'All';
+  allButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
+  allButton.style.backgroundColor = '#00ffff'; // Full cyan color
+  allButton.addEventListener('click', () => filterPoems('theme', 'All'));
+  
+  themeContainer.appendChild(allButton);
+  
+  // Collect unique themes by splitting and trimming
+  const allThemes = new Set();
+  poems.forEach(poem => {
+    poem.theme1.split(',').forEach(theme => {
+      allThemes.add(theme.trim());
+    });
+  });
+  
+  // Add theme buttons
+  allThemes.forEach(theme => {
+    const themeButton = document.createElement('button');
+    themeButton.textContent = theme;
+    themeButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
+    themeButton.style.backgroundColor = themeColors[theme] || themeColors['Uncategorized'];
+    themeButton.addEventListener('click', () => filterPoems('theme', theme));
+    
+    themeContainer.appendChild(themeButton);
+  });
+  
+  // Insert the theme filter at the beginning of the main container
+  mainContainer.insertBefore(themeContainer, mainContainer.firstChild);
+}
+
+// Update filterPoems function to handle multiple themes
 function filterPoems(type, value) {
   const allPoems = document.querySelectorAll('.poem-card');
   
@@ -192,9 +231,15 @@ function filterPoems(type, value) {
     // If 'All' is selected, show all poems
     if (value === 'All') return true;
     
-    return type === 'theme' 
-      ? poem.querySelector('.text-xs').textContent.trim() === value.trim()
-      : false;
+    // Check if the theme exists in the poem's themes
+    if (type === 'theme') {
+      const themeSpans = poem.querySelectorAll('.text-xs');
+      return Array.from(themeSpans).some(span => 
+        span.textContent.trim() === value.trim()
+      );
+    }
+    
+    return false;
   });
   
   // Hide all poems first
@@ -203,6 +248,36 @@ function filterPoems(type, value) {
   // Show filtered poems
   filteredPoems.forEach(p => p.classList.remove('hidden'));
 }
+
+//        <p class="text-sm text-gray-500 flex items-center gap-2">
+
+function generatePoemLink(poemId) {
+  // Create a unique URL hash for each poem
+  return `${window.location.origin}${window.location.pathname}#poem/${poemId}`;
+}
+
+
+function setupPoemLinking() {
+  // Parse URL hash on page load
+  const hash = window.location.hash;
+  if (hash.startsWith('#poem/')) {
+    const poemId = hash.split('/')[1];
+    const poemCard = document.querySelector(`[data-poem-id="${poemId}"]`);
+    if (poemCard) {
+      // Scroll to the poem
+      poemCard.scrollIntoView({ behavior: 'smooth' });
+      
+      // Optionally expand the poem
+      togglePoemExpansion(poemId);
+    }
+  }
+}
+
+// Call this after fetchPoems() completes
+document.addEventListener('DOMContentLoaded', () => {
+  fetchPoems();
+  setupPoemLinking();
+});
 
 function resetPoemView() {
   const allPoems = document.querySelectorAll('.poem-card');
