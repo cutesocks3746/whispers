@@ -68,10 +68,19 @@ function displayThemeFilter() {
     console.error('No main container found for theme filter');
     return;
   }
-
   const themeContainer = document.createElement('div');
   themeContainer.className = 'theme-filter flex flex-wrap justify-center gap-2 mb-6';
   
+  // Add 'All' button first
+  const allButton = document.createElement('button');
+  allButton.textContent = 'All';
+  allButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
+  allButton.style.backgroundColor = '#00ffff'; // Full cyan color
+  allButton.addEventListener('click', () => filterPoems('theme', 'All'));
+  
+  themeContainer.appendChild(allButton);
+  
+  // Add existing theme buttons
   uniqueThemes.forEach(theme => {
     const themeButton = document.createElement('button');
     themeButton.textContent = theme;
@@ -81,7 +90,7 @@ function displayThemeFilter() {
     
     themeContainer.appendChild(themeButton);
   });
-
+  
   // Insert the theme filter at the beginning of the main container
   mainContainer.insertBefore(themeContainer, mainContainer.firstChild);
 }
@@ -145,16 +154,22 @@ function displayPoems(poems) {
 
 function filterPoems(type, value) {
   const allPoems = document.querySelectorAll('.poem-card');
+  
   const filteredPoems = Array.from(allPoems).filter(poem => {
+    // If 'All' is selected, show all poems
+    if (value === 'All') return true;
+    
     return type === 'theme' 
       ? poem.querySelector('.text-xs').textContent === value
       : false;
   });
-
-  // Hide/show poems
+  
+  // Hide all poems first
   allPoems.forEach(p => p.classList.add('hidden'));
+  
+  // Show filtered poems
   filteredPoems.forEach(p => p.classList.remove('hidden'));
-
+  
   // Add back button
   const mainSection = document.querySelector('main section');
   const backButton = document.createElement('button');
@@ -166,7 +181,10 @@ function filterPoems(type, value) {
   const existingBackButton = document.querySelector('main section button');
   if (existingBackButton) existingBackButton.remove();
   
-  mainSection.insertBefore(backButton, mainSection.firstChild);
+  // Only add back button if not in 'All' view
+  if (value !== 'All') {
+    mainSection.insertBefore(backButton, mainSection.firstChild);
+  }
 }
 
 function resetPoemView() {
