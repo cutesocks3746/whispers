@@ -9,10 +9,10 @@ const SHEET_ID = '16E6_0Y75fgPRe8Uz4nRHh5C7atbtuZtnB4i1472u180';
 const API_KEY = 'AIzaSyBcn9xAwgqo9_7x4ziGzannb73Mt-QcIDA';
 
 let poems = []; // Global variable to store poems
-let uniqueThemes = new Set(); // To track unique themes
+let uniquethemess = new Set(); // To track unique themess
 
-// Theme color palette (expand as needed)
-const themeColors = {
+// themes color palette (expand as needed)
+const themesColors = {
   'Love': '#FFD1DC',      // Pastel Pink
   'Nature': '#C8E6C9',    // Light Green
   'Friendship': '#B3E5FC',// Light Blue
@@ -43,19 +43,19 @@ async function fetchPoems() {
     poems = data.values.slice(1).map(row => ({
       id: row[0] || '',
       title: row[1] || 'Untitled',
-      writtenFor: row[2] || 'Unknown',
-      date: row[3] || '',
-      time: row[4] || '',
-      theme1: row[5] || 'Uncategorized',
-      lineCount: row[7] || '',
-      fullText: row[8] || 'No text available'
+      date: row[2] || '',
+      time: row[3] || '',
+      themes: row[4] || 'Uncategorised',
+      lineCount: row[5] || '',
+      fullText: row[6] || 'No text available',
+      category: row[7] || 'Uncategorised'
     }));
     
-    // Collect unique themes
-    uniqueThemes = new Set(poems.map(poem => poem.theme1));
+    // Collect unique themess
+    uniquethemess = new Set(poems.map(poem => poem.themes));
     
     console.log('Processed poems:', poems); // Debug logging
-    displayThemeFilter();
+    displaythemesFilter();
     displayPoems(poems);
   } catch (error) {
     console.error('Error fetching poems:', error);
@@ -71,9 +71,9 @@ function togglePoemExpansion(id) {
   previewTextElement.classList.toggle('hidden');
 }
 
-function processThemes(themeString) {
-  // Split themes by comma and trim whitespace
-  return themeString.split(',').map(theme => theme.trim());
+function processthemess(themesString) {
+  // Split themess by comma and trim whitespace
+  return themesString.split(',').map(themes => themes.trim());
 }
 
 function displayPoems(poems) {
@@ -88,18 +88,18 @@ function displayPoems(poems) {
     poemCard.className = 'poem-card p-6 space-y-4 cursor-pointer w-full';
     poemCard.setAttribute('data-poem-id', poem.id);
     
-    // Process themes (split by comma if multiple)
-    const poemThemes = poem.theme1.split(',').map(theme => theme.trim());
+    // Process themess (split by comma if multiple)
+    const poemthemess = poem.themes.split(',').map(themes => themes.trim());
     
-    // Generate theme color spans
-    const themeSpans = poemThemes.map(theme => {
-    const themeColor = themeColors[theme] || themeColors['Uncategorized'];
+    // Generate themes color spans
+    const themesSpans = poemthemess.map(themes => {
+    const themesColor = themesColors[themes] || themesColors['Uncategorized'];
     return `
     <span 
       class="px-2 py-1 rounded-full text-xs mr-1 mb-1 inline-block"
-      style="background-color: ${themeColor}"
+      style="background-color: ${themesColor}"
     >
-      ${theme}
+      ${themes}
     </span>
   `;
 }).join('');
@@ -111,7 +111,7 @@ function displayPoems(poems) {
           ${poem.title}
         </h2>
         <p class="text-sm text-gray-500 flex flex-wrap items-center gap-2 mb-2">
-          ${themeSpans}
+          ${themesSpans}
         </p>
         <p class="text-sm text-gray-500 flex items-center gap-2">
           Written on: ${poem.date}
@@ -149,49 +149,49 @@ function displayPoems(poems) {
   });
 }
 
-// You'll also need to update the theme filter function
-function displayThemeFilter() {
+// You'll also need to update the themes filter function
+function displaythemesFilter() {
   const mainContainer = document.querySelector('main');
   if (!mainContainer) {
-    console.error('No main container found for theme filter');
+    console.error('No main container found for themes filter');
     return;
   }
-  const themeContainer = document.createElement('div');
-  themeContainer.className = 'theme-filter flex flex-wrap justify-center gap-2 mb-6';
+  const themesContainer = document.createElement('div');
+  themesContainer.className = 'themes-filter flex flex-wrap justify-center gap-2 mb-6';
   
   // Add 'All' button first
   const allButton = document.createElement('button');
   allButton.textContent = 'All';
   allButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
   allButton.style.backgroundColor = '#00ffff'; // Full cyan color
-  allButton.addEventListener('click', () => filterPoems('theme', 'All'));
+  allButton.addEventListener('click', () => filterPoems('themes', 'All'));
   
-  themeContainer.appendChild(allButton);
+  themesContainer.appendChild(allButton);
   
-  // Collect unique themes by splitting and trimming
-  const allThemes = new Set();
+  // Collect unique themess by splitting and trimming
+  const allthemess = new Set();
   poems.forEach(poem => {
-    poem.theme1.split(',').forEach(theme => {
-      allThemes.add(theme.trim());
+    poem.themes.split(',').forEach(themes => {
+      allthemess.add(themes.trim());
     });
   });
   
-  // Add theme buttons
-  allThemes.forEach(theme => {
-    const themeButton = document.createElement('button');
-    themeButton.textContent = theme;
-    themeButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
-    themeButton.style.backgroundColor = themeColors[theme] || themeColors['Uncategorized'];
-    themeButton.addEventListener('click', () => filterPoems('theme', theme));
+  // Add themes buttons
+  allthemess.forEach(themes => {
+    const themesButton = document.createElement('button');
+    themesButton.textContent = themes;
+    themesButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
+    themesButton.style.backgroundColor = themesColors[themes] || themesColors['Uncategorized'];
+    themesButton.addEventListener('click', () => filterPoems('themes', themes));
     
-    themeContainer.appendChild(themeButton);
+    themesContainer.appendChild(themesButton);
   });
   
-  // Insert the theme filter at the beginning of the main container
-  mainContainer.insertBefore(themeContainer, mainContainer.firstChild);
+  // Insert the themes filter at the beginning of the main container
+  mainContainer.insertBefore(themesContainer, mainContainer.firstChild);
 }
 
-// Update filterPoems function to handle multiple themes
+// Update filterPoems function to handle multiple themess
 function filterPoems(type, value) {
   const allPoems = document.querySelectorAll('.poem-card');
   
@@ -199,10 +199,10 @@ function filterPoems(type, value) {
     // If 'All' is selected, show all poems
     if (value === 'All') return true;
     
-    // Check if the theme exists in the poem's themes
-    if (type === 'theme') {
-      const themeSpans = poem.querySelectorAll('.text-xs');
-      return Array.from(themeSpans).some(span => 
+    // Check if the themes exists in the poem's themess
+    if (type === 'themes') {
+      const themesSpans = poem.querySelectorAll('.text-xs');
+      return Array.from(themesSpans).some(span => 
         span.textContent.trim() === value.trim()
       );
     }
@@ -291,11 +291,11 @@ function searchPoems() {
   allPoems.forEach(poem => {
     const title = poem.querySelector('h2').textContent.toLowerCase();
     const fullText = poem.querySelector('.full-poem-text').textContent.toLowerCase();
-    const theme = poem.querySelector('.text-xs').textContent.toLowerCase();
+    const themes = poem.querySelector('.text-xs').textContent.toLowerCase();
     
     const match = title.includes(searchTerm) || 
                   fullText.includes(searchTerm) || 
-                  theme.includes(searchTerm);
+                  themes.includes(searchTerm);
     
     poem.classList.toggle('hidden', !match);
   });
