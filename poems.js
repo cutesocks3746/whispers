@@ -104,6 +104,11 @@ function togglePoemExpansion(id) {
   previewTextElement.classList.toggle('hidden');
 }
 
+function processThemes(themeString) {
+  // Split themes by comma and trim whitespace
+  return themeString.split(',').map(theme => theme.trim());
+}
+
 function displayPoems(poems) {
   const poemsContainer = document.querySelector('main section');
   poemsContainer.innerHTML = '';
@@ -151,6 +156,32 @@ function displayPoems(poems) {
     poemCard.addEventListener('click', () => togglePoemExpansion(poem.id));
     
     poemsContainer.appendChild(poemCard);
+  });
+}
+
+function generatePoemLink(poemId) {
+  // Create a unique URL hash for each poem
+  return `${window.location.origin}${window.location.pathname}#poem/${poemId}`;
+}
+
+function setupPoemLinking() {
+  // Parse URL hash on page load
+  const hash = window.location.hash;
+  if (hash.startsWith('#poem/')) {
+    const poemId = hash.split('/')[1];
+    focusOnSpecificPoem(poemId);
+  }
+
+  // Add copy link functionality to each poem card
+  poems.forEach(poem => {
+    const link = generatePoemLink(poem.id);
+    const copyLinkButton = document.createElement('button');
+    copyLinkButton.innerHTML = '🔗 Copy Link';
+    copyLinkButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(link);
+      alert('Poem link copied!');
+    });
+    // Append to poem card
   });
 }
 
