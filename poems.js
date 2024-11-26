@@ -273,5 +273,3 @@ function searchPoems() {
     poem.classList.toggle('hidden', !match);
   });
 }
-
-document.addEventListener('DOMContentLoaded', fetchPoems);
