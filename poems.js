@@ -17,10 +17,10 @@ const themeColors = {
   'Nature': '#C8E6C9',    // Light Green
   'Friendship': '#B3E5FC',// Light Blue
   'Life': '#FFECB3',      // Light Yellow
-  'Broken Relationships': '#FF5252',      // Light Red
+  'Broken Relationships': '#FFB6C1',      // Light Pink
   'Christian Life': '#E6E6FA',      // Light Purple
   'Inspiration': '#B2EBF2',      // Light Cyan
-  'Loss': '#E53935',      // Bright Red
+  'Loss': '#FFC107',      // Amber Yellow
   'Uncategorized': '#E0E0E0' // Light Gray
 };
 
@@ -103,6 +103,7 @@ function displayPoems(poems) {
     
     // Theme background color
     const themeColor = themeColors[poem.theme1] || themeColors['Uncategorized'];
+
     
     poemCard.innerHTML = `
       <header>
@@ -110,13 +111,15 @@ function displayPoems(poems) {
           ${poem.title}
         </h2>
         <p class="text-sm text-gray-500 flex items-center gap-2">
-          Written on: ${poem.date}
           <span 
             class="px-2 py-1 rounded-full text-xs"
             style="background-color: ${themeColor}"
           >
             ${poem.theme1}
           </span>
+        </p>
+        <p class="text-sm text-gray-500 flex items-center gap-2">
+          Written on: ${poem.date}
         </p>
       </header>
 
