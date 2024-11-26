@@ -62,39 +62,6 @@ async function fetchPoems() {
   }
 }
 
-/* function displayThemeFilter() {
-  const mainContainer = document.querySelector('main');
-  if (!mainContainer) {
-    console.error('No main container found for theme filter');
-    return;
-  }
-  const themeContainer = document.createElement('div');
-  themeContainer.className = 'theme-filter flex flex-wrap justify-center gap-2 mb-6';
-  
-  // Add 'All' button first
-  const allButton = document.createElement('button');
-  allButton.textContent = 'All';
-  allButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
-  allButton.style.backgroundColor = '#00ffff'; // Full cyan color
-  allButton.addEventListener('click', () => filterPoems('theme', 'All'));
-  
-  themeContainer.appendChild(allButton);
-  
-  // Add existing theme buttons
-  uniqueThemes.forEach(theme => {
-    const themeButton = document.createElement('button');
-    themeButton.textContent = theme;
-    themeButton.className = 'px-3 py-1 rounded-full text-xs font-medium';
-    themeButton.style.backgroundColor = themeColors[theme] || themeColors['Uncategorized'];
-    themeButton.addEventListener('click', () => filterPoems('theme', theme));
-    
-    themeContainer.appendChild(themeButton);
-  });
-  
-  // Insert the theme filter at the beginning of the main container
-  mainContainer.insertBefore(themeContainer, mainContainer.firstChild);
-}
-*/
 function togglePoemExpansion(id) {
   const card = document.querySelector(`[data-poem-id="${id}"]`);
   const fullTextElement = card.querySelector('.full-poem-text');
@@ -124,7 +91,7 @@ function displayPoems(poems) {
     // Process themes (split by comma if multiple)
     const poemThemes = poem.theme1.split(',').map(theme => theme.trim());
     
-/*    // Generate theme color spans
+    // Generate theme color spans
     const themeSpans = poemThemes.map(theme => {
       const themeColor = themeColors[theme] || themeColors['Uncategorized'];
       return `
@@ -136,7 +103,7 @@ function displayPoems(poems) {
         </span>
       `;
     }).join('');
-*/
+
     poemCard.innerHTML = `
       <header>
         <h2 class="text-2xl font-semibold text-[#E53935]">
