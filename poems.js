@@ -93,23 +93,24 @@ function displayPoems(poems) {
     
     // Generate theme color spans
     const themeSpans = poemThemes.map(theme => {
-      const themeColor = themeColors[theme] || themeColors['Uncategorized'];
-      return `
-        <span 
-          class="px-2 py-1 rounded-full text-xs mr-1 inline-block"
-          style="background-color: ${themeColor}"
-        >
-          ${theme}
-        </span>
-      `;
-    }).join('');
-
+    const themeColor = themeColors[theme] || themeColors['Uncategorized'];
+    return `
+    <span 
+      class="px-2 py-1 rounded-full text-xs mr-1 mb-1 inline-block"
+      style="background-color: ${themeColor}"
+    >
+      ${theme}
+    </span>
+  `;
+}).join('');
+    
+    
     poemCard.innerHTML = `
       <header>
         <h2 class="text-2xl font-semibold text-[#E53935]">
           ${poem.title}
         </h2>
-        <p class="text-sm text-gray-500 flex items-center gap-2 mb-2">
+        <p class="text-sm text-gray-500 flex flex-wrap items-center gap-2 mb-2">
           ${themeSpans}
         </p>
         <p class="text-sm text-gray-500 flex items-center gap-2">
